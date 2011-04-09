@@ -28,12 +28,17 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Campfire {
     private HttpClient client;
     private WebClient webClient;
     private String subdomain;
     private String token;
     private boolean ssl;
+
+    private static final Logger LOGGER = Logger.getLogger(CampfireNotifier.class.getName());
 
     public Campfire(String subdomain, String token, boolean ssl) {
         super();
@@ -76,6 +81,7 @@ public class Campfire {
         get.setRequestHeader("Content-Type", "application/xml");
         try {
             client.executeMethod(get);
+            LOGGER.log(Level.INFO, "GET: " + getProtocol() + getHost() + "/" + url, get.getResponseBodyAsString());
             return get.getResponseBodyAsString();
         } finally {
             get.releaseConnection();
