@@ -92,7 +92,7 @@ public class Campfire {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
-        StringReader reader = new StringReader(body);
+        StringReader reader = new StringReader(body.trim().replaceFirst("^([\\W]+)<","<")); // speculative hack to replace BOM
         InputSource inputSource = new InputSource( reader );
         Document doc = builder.parse(inputSource);
 
